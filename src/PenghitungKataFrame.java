@@ -41,9 +41,19 @@ public class PenghitungKataFrame extends javax.swing.JFrame {
         String[] kataArray = teks.trim().split("\\s+");
         int jumlahKata = (teks.trim().isEmpty()) ? 0 : kataArray.length;
 
+        // Menghitung jumlah kalimat (diasumsikan kalimat diakhiri dengan '.', '!', atau '?')
+        String[] kalimatArray = teks.split("[.!?]+");
+        int jumlahKalimat = (teks.trim().isEmpty()) ? 0 : kalimatArray.length;
+
+        // Menghitung jumlah paragraf (diasumsikan paragraf dipisahkan oleh baris baru)
+        String[] paragrafArray = teks.split("\\n+");
+        int jumlahParagraf = (teks.trim().isEmpty()) ? 0 : paragrafArray.length;
+
         // Menampilkan hasil pada JLabel
         jumlahKataLabel.setText("Jumlah Kata: " + jumlahKata);
         jumlahKarakterLabel.setText("Jumlah Karakter: " + jumlahKarakter);
+        jumlahKalimatLabel.setText("Jumlah Kalimat: " + jumlahKalimat);
+        jumlahParagrafLabel.setText("Jumlah Paragraf: " + jumlahParagraf);
     }
 
     /**
@@ -64,6 +74,8 @@ public class PenghitungKataFrame extends javax.swing.JFrame {
         hitungButton = new javax.swing.JButton();
         jumlahKataLabel = new javax.swing.JLabel();
         jumlahKarakterLabel = new javax.swing.JLabel();
+        jumlahKalimatLabel = new javax.swing.JLabel();
+        jumlahParagrafLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -106,8 +118,6 @@ public class PenghitungKataFrame extends javax.swing.JFrame {
         gridBagConstraints.ipadx = 20;
         gridBagConstraints.insets = new java.awt.Insets(20, 20, 20, 20);
         jPanel2.add(hitungButton, gridBagConstraints);
-
-        jumlahKataLabel.setText("Jumlah Kata");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
@@ -115,8 +125,6 @@ public class PenghitungKataFrame extends javax.swing.JFrame {
         gridBagConstraints.ipadx = 20;
         gridBagConstraints.insets = new java.awt.Insets(20, 20, 20, 20);
         jPanel2.add(jumlahKataLabel, gridBagConstraints);
-
-        jumlahKarakterLabel.setText("Jumlah Karakter");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 2;
@@ -124,6 +132,20 @@ public class PenghitungKataFrame extends javax.swing.JFrame {
         gridBagConstraints.ipadx = 20;
         gridBagConstraints.insets = new java.awt.Insets(20, 20, 20, 20);
         jPanel2.add(jumlahKarakterLabel, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
+        gridBagConstraints.ipadx = 20;
+        gridBagConstraints.insets = new java.awt.Insets(20, 20, 20, 20);
+        jPanel2.add(jumlahKalimatLabel, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
+        gridBagConstraints.ipadx = 20;
+        gridBagConstraints.insets = new java.awt.Insets(20, 20, 20, 20);
+        jPanel2.add(jumlahParagrafLabel, gridBagConstraints);
 
         getContentPane().add(jPanel2, java.awt.BorderLayout.CENTER);
 
@@ -187,8 +209,10 @@ public class PenghitungKataFrame extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel jumlahKalimatLabel;
     private javax.swing.JLabel jumlahKarakterLabel;
     private javax.swing.JLabel jumlahKataLabel;
+    private javax.swing.JLabel jumlahParagrafLabel;
     private javax.swing.JTextArea textArea;
     // End of variables declaration//GEN-END:variables
 }
