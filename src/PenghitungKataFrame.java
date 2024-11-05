@@ -1,3 +1,8 @@
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintWriter;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.Document;
@@ -76,9 +81,14 @@ public class PenghitungKataFrame extends javax.swing.JFrame {
         jumlahKarakterLabel = new javax.swing.JLabel();
         jumlahKalimatLabel = new javax.swing.JLabel();
         jumlahParagrafLabel = new javax.swing.JLabel();
+        cariButton = new javax.swing.JButton();
+        kataCariField = new javax.swing.JTextField();
+        jumlahKemunculanLabel = new javax.swing.JLabel();
+        simpanButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        jPanel1.setBackground(new java.awt.Color(204, 204, 204));
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Tugas 5", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 14))); // NOI18N
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
@@ -87,10 +97,12 @@ public class PenghitungKataFrame extends javax.swing.JFrame {
 
         getContentPane().add(jPanel1, java.awt.BorderLayout.NORTH);
 
+        jPanel2.setBackground(new java.awt.Color(204, 204, 204));
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
         jPanel2.setLayout(new java.awt.GridBagLayout());
 
         textArea.setColumns(20);
+        textArea.setLineWrap(true);
         textArea.setRows(5);
         jScrollPane1.setViewportView(textArea);
 
@@ -99,11 +111,12 @@ public class PenghitungKataFrame extends javax.swing.JFrame {
         gridBagConstraints.gridy = 0;
         gridBagConstraints.gridwidth = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.ipadx = 20;
-        gridBagConstraints.ipady = 20;
+        gridBagConstraints.ipadx = 60;
+        gridBagConstraints.ipady = 60;
         gridBagConstraints.insets = new java.awt.Insets(20, 20, 20, 20);
         jPanel2.add(jScrollPane1, gridBagConstraints);
 
+        hitungButton.setBackground(new java.awt.Color(0, 204, 255));
         hitungButton.setText("Hitung");
         hitungButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -147,6 +160,48 @@ public class PenghitungKataFrame extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(20, 20, 20, 20);
         jPanel2.add(jumlahParagrafLabel, gridBagConstraints);
 
+        cariButton.setBackground(new java.awt.Color(0, 204, 255));
+        cariButton.setText("Cari Kata");
+        cariButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cariButtonActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.ipadx = 20;
+        gridBagConstraints.insets = new java.awt.Insets(20, 20, 20, 20);
+        jPanel2.add(cariButton, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.ipadx = 20;
+        gridBagConstraints.insets = new java.awt.Insets(20, 20, 20, 20);
+        jPanel2.add(kataCariField, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 2;
+        jPanel2.add(jumlahKemunculanLabel, gridBagConstraints);
+
+        simpanButton.setBackground(new java.awt.Color(0, 204, 51));
+        simpanButton.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        simpanButton.setText("SIMPAN");
+        simpanButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                simpanButtonActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.ipadx = 20;
+        gridBagConstraints.ipady = 20;
+        gridBagConstraints.insets = new java.awt.Insets(20, 20, 20, 20);
+        jPanel2.add(simpanButton, gridBagConstraints);
+
         getContentPane().add(jPanel2, java.awt.BorderLayout.CENTER);
 
         pack();
@@ -167,6 +222,60 @@ public class PenghitungKataFrame extends javax.swing.JFrame {
         jumlahKataLabel.setText("Jumlah Kata: " + jumlahKata);
         jumlahKarakterLabel.setText("Jumlah Karakter: " + jumlahKarakter);
     }//GEN-LAST:event_hitungButtonActionPerformed
+
+    private void cariButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cariButtonActionPerformed
+        // Mendapatkan teks dari JTextArea dan kata yang dicari
+        String teks = textArea.getText();
+        String kataCari = kataCariField.getText().trim();
+
+        // Mengecek apakah input kata tidak kosong
+        if (kataCari.isEmpty()) {
+            jumlahKemunculanLabel.setText("Kata yang dicari tidak boleh kosong.");
+            return;
+        }
+
+        // Menghitung jumlah kemunculan kata
+        String[] kataArray = teks.split("\\s+");
+        int jumlahKemunculan = 0;
+        for (String kata : kataArray) {
+            if (kata.equalsIgnoreCase(kataCari)) {
+                jumlahKemunculan++;
+            }
+        }
+
+        // Menampilkan hasil pada JLabel
+        jumlahKemunculanLabel.setText("Kemunculan '" + kataCari + "': " + jumlahKemunculan);
+    }//GEN-LAST:event_cariButtonActionPerformed
+
+    private void simpanButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_simpanButtonActionPerformed
+        // Menampilkan dialog JFileChooser untuk memilih lokasi penyimpanan
+        JFileChooser fileChooser = new JFileChooser();
+        int userSelection = fileChooser.showSaveDialog(this);
+
+        if (userSelection == JFileChooser.APPROVE_OPTION) {
+            // Mendapatkan file yang dipilih
+            File fileToSave = fileChooser.getSelectedFile();
+
+            try (PrintWriter writer = new PrintWriter(fileToSave)) {
+                // Menulis isi teks
+                writer.println("Isi Teks:");
+                writer.println(textArea.getText());
+
+                // Menulis hasil perhitungan
+                writer.println("\nHasil Perhitungan:");
+                writer.println(jumlahKataLabel.getText());
+                writer.println(jumlahKarakterLabel.getText());
+                writer.println(jumlahKalimatLabel.getText());
+                writer.println(jumlahParagrafLabel.getText());
+
+                // Menampilkan pesan sukses
+                JOptionPane.showMessageDialog(this, "File berhasil disimpan.", "Simpan Berhasil", JOptionPane.INFORMATION_MESSAGE);
+            } catch (IOException e) {
+                // Menampilkan pesan error jika terjadi kesalahan
+                JOptionPane.showMessageDialog(this, "Terjadi kesalahan saat menyimpan file.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }//GEN-LAST:event_simpanButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -204,6 +313,7 @@ public class PenghitungKataFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton cariButton;
     private javax.swing.JButton hitungButton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
@@ -212,7 +322,10 @@ public class PenghitungKataFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jumlahKalimatLabel;
     private javax.swing.JLabel jumlahKarakterLabel;
     private javax.swing.JLabel jumlahKataLabel;
+    private javax.swing.JLabel jumlahKemunculanLabel;
     private javax.swing.JLabel jumlahParagrafLabel;
+    private javax.swing.JTextField kataCariField;
+    private javax.swing.JButton simpanButton;
     private javax.swing.JTextArea textArea;
     // End of variables declaration//GEN-END:variables
 }
